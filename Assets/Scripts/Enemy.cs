@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour {
     private int healthPoints;
     [SerializeField]
     private int rewardAmount;
+    [SerializeField]
+    private GameObject EnemyUiPrefab;
 
     private int target = 0;
     private Transform enemy;
@@ -34,6 +36,16 @@ public class Enemy : MonoBehaviour {
         enemyCollider = GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
         GameManager.Instance.RegisterEnemy(this);
+
+        if(EnemyUiPrefab != null)
+        {
+            GameObject _uiGo = Instantiate(this.EnemyUiPrefab);
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+        }
+        else
+        {
+            Debug.Log("EnemyUiPrefab reference on player Prefab", this);
+        }
 	}
 	
 	// Update is called once per frame
@@ -90,18 +102,26 @@ public class Enemy : MonoBehaviour {
         }
         else
         {
-            anim.SetTrigger("didDie");
-            die();
+            healthPoints = 0;
+            anim.SetTrigger("didDie");            
+            StartCoroutine(die());
         }
     }
 
-    public void die()
+    public IEnumerator die()
     {
-        isDead = true;
+        isDead = true;        
         enemyCollider.enabled = false;
+        //GetComponent<Enemy>().enabled = false;
+        yield return  new WaitForSeconds(5);
         GameManager.Instance.TotalKilled += 1;
         GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Death);
         GameManager.Instance.AddMoney(rewardAmount);
         GameManager.Instance.isWaveOver();
+    }
+
+    public int GetHealth()
+    {
+        return healthPoints;
     }
 }

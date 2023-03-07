@@ -9,8 +9,8 @@ public class TowerManager : Singleton<TowerManager> {
     private List<Collider2D> BuildList = new List<Collider2D>();
     private Collider2D buildTile;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
         buildTile = GetComponent<Collider2D>();
         spriteRenderer.enabled = false;
@@ -29,11 +29,13 @@ public class TowerManager : Singleton<TowerManager> {
              */
             //Finding the worldPoint of where we click, from Vector2.zero (which is buttom left corner)
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+            Debug.Log("tag : " + hit.collider.tag);
 
             //Check to see if mouse press location is on buildSites
             
             if(hit.collider.tag == "buildSite")
             {
+                
                 buildTile = hit.collider;
                 buildTile.tag = "buildSiteFull";     //This prevents us from stacking towers ontop of each other.
                 RegisterBuildSite(buildTile);

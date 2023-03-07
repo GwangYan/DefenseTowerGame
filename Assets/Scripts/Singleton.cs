@@ -11,8 +11,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
         {
             //If the instance is null, set the instance to this current class
             //otherwise if its not == we want to destroy the gameObject
-            if (instance == null)           { instance = FindObjectOfType<T>(); }
-            //else if (instance != null)      { Destroy(FindObjectOfType<T>()); }
+            //if (instance == null)           { instance = FindObjectOfType<T>(); }
+            if (instance == null)      { instance = FindObjectOfType<T>();  }
+            else if (instance != null) { if (!instance is GameManager) Destroy(FindObjectOfType<T>()); }
 
             //DontDestroyOnLoad(FindObjectOfType<T>());
             return instance;

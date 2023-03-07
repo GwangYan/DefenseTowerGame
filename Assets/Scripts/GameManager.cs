@@ -85,6 +85,7 @@ public class GameManager : Singleton<GameManager> {
 	
 	// Update is called once per frame
 	void Update () {
+
         handleEscape();
 	}
 
@@ -228,5 +229,4 @@ public class GameManager : Singleton<GameManager> {
             TowerManager.Instance.towerButtonPressed = null;
         }
     }
-
 }
