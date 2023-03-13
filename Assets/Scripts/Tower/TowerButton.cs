@@ -7,6 +7,8 @@ public class TowerButton : MonoBehaviour {
     private Sprite dragSprite;
     [SerializeField]
     private int towerPrice;
+    [SerializeField]
+    private string name;
 
     public Tower TowerObject
     {
@@ -21,5 +23,16 @@ public class TowerButton : MonoBehaviour {
     public int TowerPrice
     {
         get { return towerPrice; }
+    }
+
+    public string Name
+    {
+        get { return name; }
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log("OnMouseButton");
+        TowerManager.Instance.OnBuildTower(this);
     }
 }

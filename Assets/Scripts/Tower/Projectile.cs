@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum ProjectileType
 {
-    rock,
     arrow,
+    glaive,
+    hammer,
     fireball
 };
 

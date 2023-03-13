@@ -50,7 +50,12 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (wayPoints != null && !isDead)
+        if(GameManager.Instance.getHealth() <= 0 || GameManager.Instance.currentState == gameStatus.pause || GameManager.Instance.currentState == gameStatus.win)
+        {
+            return;
+        }
+
+        if (wayPoints != null && !isDead)
         {
             //Lets use change how fast the update occurs
             navigationTime += Time.deltaTime;
@@ -77,7 +82,9 @@ public class Enemy : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider2D)
     {
         if (collider2D.tag == "checkpoint")
+        {
             target += 1;
+        }            
         else if (collider2D.tag == "Finish")
         {
             GameManager.Instance.RoundEscaped += 1;
@@ -88,9 +95,12 @@ public class Enemy : MonoBehaviour {
         else if(collider2D.tag == "projectile")
         {
             Projectile newP = collider2D.gameObject.GetComponent<Projectile>();
-            enemyHit(newP.AttackStrength);
+            if(newP != null)
+            {
+                enemyHit(newP.AttackStrength);                
+            }
             Destroy(collider2D.gameObject);
-        }
+        }        
     }
     public void enemyHit(int hitPoints)
     {
@@ -118,6 +128,7 @@ public class Enemy : MonoBehaviour {
         GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Death);
         GameManager.Instance.AddMoney(rewardAmount);
         GameManager.Instance.isWaveOver();
+        GameManager.Instance.UnregisterEnemy(this);
     }
 
     public int GetHealth()

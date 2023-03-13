@@ -67,7 +67,7 @@ public class Tower : MonoBehaviour {
         } else if(newProjectile.ProjectileType == ProjectileType.fireball)
         {
             GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Fireball);
-        } else if (newProjectile.ProjectileType == ProjectileType.rock)
+        } else if (newProjectile.ProjectileType == ProjectileType.glaive)
         {
             GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Rock);
         }
